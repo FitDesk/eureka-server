@@ -28,4 +28,38 @@ jobs:
             -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
             -Dsonar.pullrequest.branch=${{ github.head_ref }} \
             -Dsonar.pullrequest.base=${{ github.base_ref }}
-    
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+
+      - run: ./mvnw clean package -DskipTests
+
+      - uses: azure/docker-login@v2
+        with:
+          login-server: ${{ secrets.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - run: |
+          IMAGE=${{ secrets.ACR_NAME }}.azurecr.io/fitdesk-service:${{ github.sha }}
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - run: |
+          RG=fitdesk
+          NAME=fitdesk-service
+          az container delete -g $RG -n $NAME --yes || true
+          az container create -g $RG -n $NAME --image $IMAGE --cpu 1 --memory 1.5 --ports 8080 --dns-name-label $NAME-${{ github.run_number }}
+
+      - run: |
+          URL="http://$(az container show -g fitdesk -n fitdesk-service --query ipAddress.ip -o tsv):8080/actuator/health"
+          for i in {1..10}; do
+            if curl -fs $URL; then echo "OK"; exit 0; fi
+            sleep 5
+          done
+          exit 1
