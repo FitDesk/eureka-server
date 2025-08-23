@@ -46,7 +46,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fitdesk-eureka:latest
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/fitdesk-eureka:buildcache
