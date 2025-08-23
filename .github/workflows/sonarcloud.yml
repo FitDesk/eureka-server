@@ -58,16 +58,21 @@ jobs:
 
       # Login a Azure con usuario/contraseña
       # Login a Azure con usuario/contraseña
+      # Login a Azure con un enfoque más seguro
       - name: Login to Azure
-        uses: azure/CLI@v1
+        uses: azure/login@v2
         with:
-          inlineScript: |
-            az login -u "${{ secrets.AZURE_USERNAME }}" -p "${{ secrets.AZURE_PASSWORD }}"
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            RG=fitdesk
-            NAME=fitdesk-service
-            az container delete -g $RG -n $NAME --yes || true
-            az container create -g $RG -n $NAME --image ${{ env.IMAGE }} --cpu 1 --memory 1.5 --ports 8761 --dns-name-label $NAME-${{ github.run_number }}
+      # Continúa con la creación del contenedor
+      - name: Deploy to Azure Container Instances
+        run: |
+          RG=fitdesk
+          NAME=fitdesk-service
+          az container delete -g $RG -n $NAME --yes || true
+          az container create -g $RG -n $NAME --image ${{ env.IMAGE }} --cpu 1 --memory 1.5 --ports 8761 --dns-name-label $NAME-${{ github.run_number }}
 
       # Verificación de salud (igual que antes)
       - run: |
