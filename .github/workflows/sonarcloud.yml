@@ -56,7 +56,7 @@ jobs:
           RG=fitdesk
           NAME=fitdesk-service
           az container delete -g $RG -n $NAME --yes || true
-          az container create -g $RG -n $NAME --image $IMAGE --cpu 1 --memory 1.5 --ports 8080 --dns-name-label $NAME-${{ github.run_number }}
+          az container create -g $RG -n $NAME --image $IMAGE --cpu 1 --memory 1.5 --ports 8761 --dns-name-label $NAME-${{ github.run_number }}
 
       - run: |
           URL="http://$(az container show -g fitdesk -n fitdesk-service --query ipAddress.ip -o tsv):8080/actuator/health"
