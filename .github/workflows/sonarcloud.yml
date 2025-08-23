@@ -48,6 +48,6 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fitdesk-eureka:latest
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/fitdesk-eureka:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/fitdesk-eureka:buildcache,mode=max
