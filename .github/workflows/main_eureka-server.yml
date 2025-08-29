@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy container app to Azure Web App - eureka-server
 
 on:
@@ -25,15 +22,15 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: index.docker.io/
-          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F0042D307AF946F49301E93EE7EC4186 }}
-          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_58848738B3D14718917F3218794EFFE8 }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F0042D307AF946F49301E93EE7EC4186 }}/raydberg25/fitdesk-config-server:${{ github.sha }}
+          tags: raydberg25/fitdesk-config-server:latest
           file: ./Dockerfile
 
   deploy:
@@ -60,5 +57,5 @@ jobs:
         with:
           app-name: 'eureka-server'
           slot-name: 'Production'
-          images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F0042D307AF946F49301E93EE7EC4186 }}/raydberg25/fitdesk-config-server:${{ github.sha }}'
+          images: raydberg25/fitdesk-config-server:latest
           
