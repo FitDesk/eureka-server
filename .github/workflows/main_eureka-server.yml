@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: raydberg25/fitdesk-config-server:latest
+          tags: raydberg25/fitdesk-eureka:latest
           file: ./Dockerfile
 
   deploy:
@@ -57,5 +57,5 @@ jobs:
         with:
           app-name: 'eureka-server'
           slot-name: 'Production'
-          images: raydberg25/fitdesk-config-server:latest
+          images: raydberg25/fitdesk-eureka:latest
           
