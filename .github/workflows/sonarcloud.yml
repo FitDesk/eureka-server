@@ -26,7 +26,7 @@ jobs:
           SONAR_PROJECT_KEY: ${{secrets.PROJECT_KEY}}
           SONAR_ORG_KEY: ${{secrets.PROJECT_KEY}}
           SONAR_PULL_REQUEST_KEY: ${{github.event.pull_request.number}}
-          SONAR_PULL_REQUEST_BASE: ${{github.base_refr}}
+          SONAR_PULL_REQUEST_BASE: ${{github.base_ref}}
         run: |
           mvn -B -DskipTests verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=$SONAR_PROJECT_KEY \
