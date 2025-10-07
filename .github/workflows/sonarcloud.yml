@@ -24,7 +24,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: ${{secrets.PROJECT_KEY}}
-          SONAR_ORG_KEY: ${{secrets.PROJECT_KEY}}
+          SONAR_ORG_KEY: ${{secrets.ORG_KEY}}
           SONAR_PULL_REQUEST_KEY: ${{github.event.pull_request.number}}
           SONAR_PULL_REQUEST_BASE: ${{github.base_ref}}
         run: |
@@ -41,7 +41,7 @@ jobs:
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@17f84c3641ba7b8f6deff6309fc4c864478f5d62
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
       - name: Log in to Docker Hub
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
         with:
