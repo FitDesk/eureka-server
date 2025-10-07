@@ -9,6 +9,8 @@ permissions:
 jobs:
   build-and-analyze:
     runs-on: ubuntu-latest
+    env:
+      SONAR_PR_BRANCH: ${{github.head_ref}}
     steps:
       - uses: actions/checkout@v4
 
@@ -28,7 +30,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
-            -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+            -Dsonar.pullrequest.branch=$SONAR_PR_BRANCH \
             -Dsonar.pullrequest.base=${{ github.base_ref }}
 
   build:
