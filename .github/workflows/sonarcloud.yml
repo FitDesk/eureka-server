@@ -24,7 +24,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: ${{secrets.PROJECT_KEY}}
-          SONAR_ORG_KEY: ${{secrets.PROJECT_KEY}}
+          SONAR_ORG_KEY: ${{secrets.ORG_KEY}}
           SONAR_PULL_REQUEST_KEY: ${{github.event.pull_request.number}}
           SONAR_PULL_REQUEST_BASE: ${{github.base_ref}}
         run: |
