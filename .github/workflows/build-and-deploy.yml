@@ -13,19 +13,19 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push container image to Docker Hub
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9
         with:
           context: .
           push: true
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_901AF2A368124E1697A2EC9953B03257 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DD7A00C26A4F4FD78D434AB3CB6C16D1 }}
@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@3f1742a3b209ebd19d82b914f43fe1d6b919e536
         with:
           app-name: 'eureka-server'
           slot-name: 'Production'
